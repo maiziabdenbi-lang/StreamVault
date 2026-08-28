@@ -1,0 +1,22 @@
+# Gradle files
+.gradle
+.gradle/
+build/
+local.properties
+bin/
+gen/
+out/
+proguard/
+.navigation/
+captures/
+*.iml
+*.ipr
+*.iws
+.idea/
+*.jks
+*.keystore
+.DS_Store
+Thumbs.db
+.android/
+.build/
+kotlin-build/
