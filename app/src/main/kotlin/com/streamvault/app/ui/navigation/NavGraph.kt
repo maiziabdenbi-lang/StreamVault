@@ -1,5 +1,6 @@
 package com.streamvault.app.ui.navigation
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Download
@@ -12,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -34,8 +36,12 @@ sealed class Screen(val route: String) {
 @Composable
 fun StreamVaultApp() {
     val navController = rememberNavController()
-    Scaffold(bottomBar = { BottomNavigationBar(navController) }) {
-        NavHost(navController = navController, startDestination = Screen.Home.route) {
+    Scaffold(bottomBar = { BottomNavigationBar(navController) }) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = Screen.Home.route,
+            modifier = Modifier.padding(innerPadding)
+        ) {
             composable(Screen.Home.route) { HomeScreen(navController) }
             composable(Screen.Search.route) { SearchScreen(navController) }
             composable(Screen.Downloads.route) { DownloadsScreen(navController) }
@@ -48,12 +54,15 @@ fun StreamVaultApp() {
 private fun BottomNavigationBar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
+
+    // FIX: Use Triple instead of nested Pairs to allow 3-variable destructuring
     val items = listOf(
-        Screen.Home to "Home" to Icons.Default.Home,
-        Screen.Search to "Search" to Icons.Default.Search,
-        Screen.Downloads to "Downloads" to Icons.Default.Download,
-        Screen.Settings to "Settings" to Icons.Default.Settings,
+        Triple(Screen.Home, "Home", Icons.Default.Home),
+        Triple(Screen.Search, "Search", Icons.Default.Search),
+        Triple(Screen.Downloads, "Downloads", Icons.Default.Download),
+        Triple(Screen.Settings, "Settings", Icons.Default.Settings)
     )
+
     NavigationBar {
         items.forEach { (screen, label, icon) ->
             NavigationBarItem(
