@@ -1,0 +1,29 @@
+buildscript {
+    ext {
+        kotlin_version = '1.9.10'
+        gradle_version = '8.0.2'
+        min_sdk_version = 24
+        target_sdk_version = 34
+        compile_sdk_version = 34
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$gradle_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
